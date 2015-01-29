@@ -8,11 +8,20 @@
     var suits = ["♠", "♥", "♦", "♣"];
     for (i = 0; i < suits.length; i++) {
       for (num = 1; num <= 10; num++) {
-        deck.push(new Card(num, suits[i]))
+        deck.push(new Card(num, suits[i]));
       }
+      deck.push(new Card("J", suits[i]));
+      deck.push(new Card("Q", suits[i]));
+      deck.push(new Card("K", suits[i]));
+      deck.push(new Card("A", suits[i]));
     }
     return deck
   }
+  function Shuffle(o) {
+    for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+    return o;
+  };
   var deck = new Deck
+  deck = Shuffle(deck)
   console.log(deck)
 </script>
