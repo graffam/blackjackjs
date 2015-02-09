@@ -1,123 +1,135 @@
+<div class="container">
+    <div class="inner">Score: </div>
+</div>
+
+
+<script type="text/javascript" src="jquery-2.1.3.js"></script>
 <script>
   function Card (value, suit){
-    this.cardValue = value;
-    this.cardSuit = suit;
-  }
-  function Deck () {
-    var deck = [];
-    var suits = ["♠", "♥", "♦", "♣"];
-    for (i = 0; i < suits.length; i++) {
-      for (num = 2; num <= 10; num++) {
-        deck.push(new Card(num, suits[i]));
-      }
-      deck.push(new Card("J", suits[i]));
-      deck.push(new Card("Q", suits[i]));
-      deck.push(new Card("K", suits[i]));
-      deck.push(new Card("A", suits[i]));
+  this.cardValue = value;
+  this.cardSuit = suit;
     }
-    return deck
-  }
-  function Shuffle(o) {
-    for(var j, x, i = o.length; i; j = parseInt(Math.random() * i),
-      x = o[--i], o[i] = o[j], o[j] = x);
-    return o;
-  };
-
-  function Deal(deck, hand) {
-    hand.push(deck.pop(deck));
-    hand.push(deck.pop(deck));
-    return hand;
-  }
-
-  function Hit(deck, hand){
-    hand.push(deck.pop(deck));
-  }
-
-  function cardsInHand(hand){
-    cards = ""
-    for (i = 0; i < hand.length; i++){
-      cards += (hand[i].cardValue + hand[i].cardSuit + " ");
+    function Deck () {
+  var deck = [];
+  var suits = ["♠", "♥", "♦", "♣"];
+  for (i = 0; i < suits.length; i++) {
+    for (num = 2; num <= 10; num++) {
+      deck.push(new Card(num, suits[i]));
     }
-    return cards;
+    deck.push(new Card("J", suits[i]));
+    deck.push(new Card("Q", suits[i]));
+    deck.push(new Card("K", suits[i]));
+    deck.push(new Card("A", suits[i]));
   }
-
-  function Score(hand){
-    var score = 0;
-    for(i = 0; i < hand.length; i++){
-      if (hand[i].cardValue == "J" || hand[i].cardValue == "Q" || hand[i].cardValue == "K"){
-        score += 10;
-      }
-      else if (hand[i].cardValue == "A"){
-        if (score <= 11) { score += 10; }
-        else { score += 1; }
-      }
-      else {
-        score += hand[i].cardValue;
-      }
+  return deck
     }
-    return score
+    function Shuffle(o) {
+  for(var j, x, i = o.length; i; j = parseInt(Math.random() * i),
+    x = o[--i], o[i] = o[j], o[j] = x);
+  return o;
+    };
+
+    function Deal(deck, hand) {
+  hand.push(deck.pop(deck));
+  hand.push(deck.pop(deck));
+  return hand;
+    }
+
+    function Hit(deck, hand){
+  hand.push(deck.pop(deck));
+    }
+
+    function cardsInHand(hand){
+  cards = ""
+  for (i = 0; i < hand.length; i++){
+    cards += (hand[i].cardValue + hand[i].cardSuit + " ");
   }
-  function Game() {
-    playerScore = 0;
-    dealerScore = 0;
-    var hand = [];
-    var dealerHand = [];
-    var deck = Shuffle(new Deck);
-    hand = Deal(deck,hand);
-    dealerHand = Deal(deck,dealerHand);
-    alert("Dealer has a score of: " + Score(dealerHand));
-    while (playerScore <= 21) {
-        playerScore = Score(hand);
-        var message = ("You have " + cardsInHand(hand) + ", for: " +
-                        playerScore + " would you like to hit?");
-        var ask = confirm(message);
-        if (ask == true){
-          Hit(deck, hand);
-          playerScore = Score(hand);}
-        else { break; }
-      }
-    if(playerScore > 21) {
-      var ask = confirm("BUST! Would you like to play again?");
-      if(ask == true){
-        Game();
-      }
+  return cards;
     }
-    while (dealerScore <= 21){
-      dealerScore = Score(dealerHand);
-      var message = ("Dealer Has: " + cardsInHand(hand) + " for: " + dealerScore);
-      if(dealerScore < 17){
-        alert("Dealer Hits!")
-        Hit(deck,dealerHand);
 
-        dealerScore = Score(dealerHand);
-        alert("Dealer Has: " + dealerScore)
-      }
+    function Score(hand){
+  var score = 0;
+  for(i = 0; i < hand.length; i++){
+    if (hand[i].cardValue == "J" || hand[i].cardValue == "Q" || hand[i].cardValue == "K"){
+      score += 10;
+    }
+    else if (hand[i].cardValue == "A"){
+      if (score <= 11) { score += 10; }
+      else { score += 1; }
+    }
+    else {
+      score += hand[i].cardValue;
+    }
+  }
+  return score
+    }
+
+    function Game() {
+  $("div.inner").replaceWith("<div class=inner> Score: " + score + " </div>")
+  playerScore = 0;
+  dealerScore = 0;
+  var hand = [];
+  var dealerHand = [];
+  var deck = Shuffle(new Deck);
+  hand = Deal(deck,hand);
+  dealerHand = Deal(deck,dealerHand);
+  alert("Dealer has a score of: " + Score(dealerHand));
+  while (playerScore <= 21) {
+      playerScore = Score(hand);
+      var message = ("You have " + cardsInHand(hand) + ", for: " +
+                      playerScore + " would you like to hit?");
+      var ask = confirm(message);
+      if (ask == true){
+        Hit(deck, hand);
+        playerScore = Score(hand);}
       else { break; }
     }
-    if(dealerScore > 21){
-    var ask = confirm("Dealer Busts! You Win! Play again");
-      if(ask == true){
-        Game();
-      }
-    }
-    else if(dealerScore < playerScore){
-      var ask = confirm("You win! Play Again?");
-      if (ask == true){
-        Game();
-      }
-    else if(dealerScore == playerScore){
-      var ask = confirm("Tie! Play again?");
-      if (ask == true){
-        Game();
-      }
-    }
-    }
-    else{
-      var ask = confirm("Dealer wins! Play Again?");
-      if (ask == true){
-        Game();
-      }
+  if(playerScore > 21) {
+    var ask = confirm("BUST! Would you like to play again?");
+    if(ask == true){
+      Game();
     }
   }
-  Game();
+  while (dealerScore <= 21){
+    dealerScore = Score(dealerHand);
+    var message = ("Dealer Has: " + cardsInHand(hand) + " for: " + dealerScore);
+    if(dealerScore < 17){
+      alert("Dealer Hits!")
+      Hit(deck,dealerHand);
+
+      dealerScore = Score(dealerHand);
+      alert("Dealer Has: " + dealerScore)
+    }
+    else { break; }
+  }
+  if(dealerScore > 21){
+    score += 1;
+  var ask = confirm("Dealer Busts! You Win! Play again");
+    if(ask == true){
+      Game();
+    }
+  }
+  else if(dealerScore < playerScore){
+    var ask = confirm("You win! Play Again?");
+    score += 1;
+    if (ask == true){
+      Game();
+    }
+  else if(dealerScore == playerScore){
+    var ask = confirm("Tie! Play again?");
+    if (ask == true){
+      Game();
+    }
+  }
+  }
+  else{
+    var ask = confirm("Dealer wins! Play Again?");
+    score -= 1;
+    if (ask == true){
+      Game();
+    }
+  }
+    }
+    var score = 0;
+    Game(score);
 </script>
