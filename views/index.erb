@@ -88,7 +88,9 @@
       if(dealerScore < 17){
         alert("Dealer Hits!")
         Hit(deck,dealerHand);
+
         dealerScore = Score(dealerHand);
+        alert("Dealer Has: " + dealerScore)
       }
       else { break; }
     }
@@ -103,6 +105,12 @@
       if (ask == true){
         Game();
       }
+    else if(dealerScore == playerScore){
+      var ask = confirm("Tie! Play again?");
+      if (ask == true){
+        Game();
+      }
+    }
     }
     else{
       var ask = confirm("Dealer wins! Play Again?");
