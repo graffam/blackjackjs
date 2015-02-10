@@ -8,10 +8,24 @@
     </div>
   </div>
 </div>
-
 <div class="row">
   <div class="small-12 columns text-center cardArea">
-
+      <div class="row">
+        <div class="small-12 columns text-center">
+          <div class="dealers">
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+<div class="row">
+  <div class="small-12 columns text-center cardArea">
+      <div class="row">
+        <div class="small-12 columns text-center">
+          <div class="players">
+          </div>
+        </div>
+      </div>
   </div>
 </div>
 <div class="row">
@@ -92,11 +106,12 @@
     var deck = Shuffle(new Deck);
     hand = Deal(deck,hand);
     dealerHand = Deal(deck,dealerHand);
-    alert("Dealer has a score of: " + Score(dealerHand));
+    $(".dealers").replaceWith("<div class=dealers>Dealers Hand: "
+      + cardsInHand(dealerHand) + " Score: " + Score(dealerHand) +"</div>");
     while (playerScore <= 21) {
       playerScore = Score(hand);
-      var message = ("You have " + cardsInHand(hand) + ", for: " +
-                      playerScore + " would you like to hit?");
+    $(".players").replaceWith("<div class=players>You have " + cardsInHand(hand) + ", for: " +
+        playerScore + " would you like to hit?</div>");
       var ask = confirm(message);
       if (ask == true){
         Hit(deck, hand);
@@ -145,7 +160,7 @@
       var ask = confirm("Dealer wins! Play Again?");
       score -= 1;
       if (ask == true){
-        Game();
+        Game(score);
       }
     }
   }
