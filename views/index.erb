@@ -9,7 +9,7 @@
   </div>
 </div>
 <div class="row">
-  <div class="small-12 columns text-center">
+  <div class="small-12 columns text-center playingField">
     <button class="large button expand play">Play</button>
   </div>
 </div>
@@ -126,7 +126,7 @@
     if (ask == true){
       Game();
     }
-  else if(dealerScore == playerScore){
+  else if(dealerScore === playerScore){
     var ask = confirm("Tie! Play again?");
     if (ask == true){
       Game();
@@ -140,9 +140,13 @@
       Game();
     }
   }
-    }
-    var score = 0;
-    $(".play").click(function()
-    { Game(score);
-    });
+}
+
+var score = 0;
+$(".play").click(function()
+{
+  $(".play").replaceWith("<button class=hit button>Hit</button>")
+  $(".playingField").append("<button class=stay button>Stay</button>")
+  Game(score);
+});
 </script>
