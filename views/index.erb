@@ -145,34 +145,33 @@
     }
   }
 
-$(".hit").click(function(){
-  alert("it worked!");
-});
 
-var score = 0;
-$(".play").click(function()
-{
-  $(".play").replaceWith("<button class=hit>Hit</button>")
-  $(".buttons").append("<button class=stay>Stay</button>")
-  $("div.inner").replaceWith("<div class=inner> Score: " + score + " </div>")
-  playerScore = 0;
-  dealerScore = 0;
-  var hand = [];
-  var dealerHand = [];
-  var deck = Shuffle(new Deck);
-  hand = Deal(deck,hand);
-  dealerHand = Deal(deck,dealerHand);
-  $(".dealers").replaceWith("<div class=dealers>Dealers Hand: "
-    + cardsInHand(dealerHand) + " Score: " + Score(dealerHand) +"</div>");
-  playerScore = Score(hand);
-  $(".players").replaceWith("<div class=players>You have " + cardsInHand(hand) + ", for: " +
-      playerScore);
-});
+$(document).ready(function() {
 
-$(".stay").on("click", function(){
-  hit(deck,hand);
-  playerScore = Score(hand);
-  $(".players").replaceWith("<div class=players>You have " + cardsInHand(hand) + ", for: " +
-      playerScore);
+  var score = 0;
+  $(".play").click(function()
+  {
+    $(".play").replaceWith("<button class=hit>Hit</button>")
+    $(".buttons").append("<button class=stay>Stay</button>")
+    $("div.inner").replaceWith("<div class=inner> Score: " + score + " </div>")
+    playerScore = 0;
+    dealerScore = 0;
+    var hand = [];
+    var dealerHand = [];
+    var deck = Shuffle(new Deck);
+    hand = Deal(deck,hand);
+    dealerHand = Deal(deck,dealerHand);
+    $(".dealers").replaceWith("<div class=dealers>Dealers Hand: "
+      + cardsInHand(dealerHand) + " Score: " + Score(dealerHand) +"</div>");
+    playerScore = Score(hand);
+    $(".players").replaceWith("<div class=players>You have " + cardsInHand(hand) + ", for: " +
+        playerScore);
+  });
+  $(".hit").click(function(){
+    hit(deck,hand);
+    playerScore = Score(hand);
+    $(".players").replaceWith("<div class=players>You have " + cardsInHand(hand) + ", for: " +
+        playerScore);
+  });
 });
 </script>
