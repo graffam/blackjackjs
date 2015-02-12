@@ -98,26 +98,6 @@
   }
 
   function Game() {
-    $("div.inner").replaceWith("<div class=inner> Score: " + score + " </div>")
-    playerScore = 0;
-    dealerScore = 0;
-    var hand = [];
-    var dealerHand = [];
-    var deck = Shuffle(new Deck);
-    hand = Deal(deck,hand);
-    dealerHand = Deal(deck,dealerHand);
-    $(".dealers").replaceWith("<div class=dealers>Dealers Hand: "
-      + cardsInHand(dealerHand) + " Score: " + Score(dealerHand) +"</div>");
-    while (playerScore <= 21) {
-      playerScore = Score(hand);
-    $(".players").replaceWith("<div class=players>You have " + cardsInHand(hand) + ", for: " +
-        playerScore + " would you like to hit?</div>");
-      var ask = confirm(message);
-      if (ask == true){
-        Hit(deck, hand);
-        playerScore = Score(hand);}
-      else { break; }
-    }
     if(playerScore > 21) {
       var ask = confirm("BUST! Would you like to play again?");
       if(ask == true){
@@ -165,11 +145,34 @@
     }
   }
 
+$(".hit").click(function(){
+  alert("it worked!");
+});
+
 var score = 0;
 $(".play").click(function()
 {
-  $(".play").replaceWith("<button class=hit button>Hit</button>")
-  $(".buttons").append("<button class=stay button>Stay</button>")
-  Game(score);
+  $(".play").replaceWith("<button class=hit>Hit</button>")
+  $(".buttons").append("<button class=stay>Stay</button>")
+  $("div.inner").replaceWith("<div class=inner> Score: " + score + " </div>")
+  playerScore = 0;
+  dealerScore = 0;
+  var hand = [];
+  var dealerHand = [];
+  var deck = Shuffle(new Deck);
+  hand = Deal(deck,hand);
+  dealerHand = Deal(deck,dealerHand);
+  $(".dealers").replaceWith("<div class=dealers>Dealers Hand: "
+    + cardsInHand(dealerHand) + " Score: " + Score(dealerHand) +"</div>");
+  playerScore = Score(hand);
+  $(".players").replaceWith("<div class=players>You have " + cardsInHand(hand) + ", for: " +
+      playerScore);
+});
+
+$(".stay").on("click", function(){
+  hit(deck,hand);
+  playerScore = Score(hand);
+  $(".players").replaceWith("<div class=players>You have " + cardsInHand(hand) + ", for: " +
+      playerScore);
 });
 </script>
