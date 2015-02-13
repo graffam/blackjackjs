@@ -1,5 +1,5 @@
 <head>
-  <link href="foundation.css" rel="stylesheet" type="text/css"/>
+  <link rel="stylesheet" type="text/css" href="foundation.css">
 </head>
 <div class="row">
   <div class="small-12 columns text-center">
@@ -145,33 +145,43 @@
     }
   }
 
-
 $(document).ready(function() {
-
   var score = 0;
-  $(".play").click(function()
+  var hand = [];
+  var dealerHand = [];
+  var deck = Shuffle(new Deck);
+  var playerScore = 0;
+  var dealerScore = 0;
+
+  $(".play").on("click", function(hand,dealerHand,deck)
   {
-    $(".play").replaceWith("<button class=hit>Hit</button>")
+    $(".play").off("click");
+    $(".play").replaceWith("<button class=\"hit\">Hit</button>")
     $(".buttons").append("<button class=stay>Stay</button>")
     $("div.inner").replaceWith("<div class=inner> Score: " + score + " </div>")
+
     playerScore = 0;
     dealerScore = 0;
-    var hand = [];
-    var dealerHand = [];
-    var deck = Shuffle(new Deck);
+    hand = [];
+    dealerHand = [];
+    deck = Shuffle(new Deck);
     hand = Deal(deck,hand);
     dealerHand = Deal(deck,dealerHand);
+
     $(".dealers").replaceWith("<div class=dealers>Dealers Hand: "
       + cardsInHand(dealerHand) + " Score: " + Score(dealerHand) +"</div>");
+
     playerScore = Score(hand);
+
     $(".players").replaceWith("<div class=players>You have " + cardsInHand(hand) + ", for: " +
         playerScore);
-  });
-  $(".hit").click(function(){
-    hit(deck,hand);
-    playerScore = Score(hand);
-    $(".players").replaceWith("<div class=players>You have " + cardsInHand(hand) + ", for: " +
-        playerScore);
+      $(".hit").click(function(deck,hand){
+        alert("meow")
+        Hit(deck,hand);
+        playerScore = Score(hand);
+        $(".players").replaceWith("<div class=players>You have " + cardsInHand(hand) + ", for: " +
+          playerScore);
+        });
   });
 });
 </script>
