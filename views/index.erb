@@ -174,14 +174,15 @@ $(document).ready(function() {
     playerScore = Score(hand);
 
     $(".players").replaceWith("<div class=players>You have " + cardsInHand(hand) + ", for: " +
+      playerScore);
+    $(".hit").click(function(){
+
+      Hit(deck,hand);
+      playerScore = Score(hand);
+
+      $(".players").replaceWith("<div class=players>You have " + cardsInHand(hand) + ", for: " +
         playerScore);
-      $(".hit").click(function(deck,hand){
-        alert("meow")
-        Hit(deck,hand);
-        playerScore = Score(hand);
-        $(".players").replaceWith("<div class=players>You have " + cardsInHand(hand) + ", for: " +
-          playerScore);
-        });
+      });
   });
 });
 </script>
