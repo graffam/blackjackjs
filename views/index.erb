@@ -176,13 +176,16 @@ $(document).ready(function() {
     $(".players").replaceWith("<div class=players>You have " + cardsInHand(hand) + ", for: " +
       playerScore);
     $(".hit").click(function(){
-
       Hit(deck,hand);
       playerScore = Score(hand);
-
+      if (playerScore > 21){
+        $(".players").replaceWith("<div class=players>Bust! Play again?</div>");
+      }
+      else {
       $(".players").replaceWith("<div class=players>You have " + cardsInHand(hand) + ", for: " +
         playerScore);
+        }
       });
+    });
   });
-});
 </script>
