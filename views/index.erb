@@ -129,7 +129,9 @@ function Game(score,hand,dealerHand,deck,playerScore,dealerScore){
         $(".hit").replaceWith("<button class=play>Again?</button")
         $(".stay").remove();
         score -= 1;
-        $(".play").click(Game(score,hand,dealerHand,deck,playerScore,dealerScore))
+        $(".play").on("click", function(score,hand,dealerHand,deck,playerScore,dealerScore){
+          Game(score,hand,dealerHand,deck,playerScore,dealerScore);
+        });
       }
       else {
       $(".players").replaceWith("<div class=players>You have " + cardsInHand(hand) + ", for: " +
@@ -146,6 +148,8 @@ $(document).ready(function() {
   var playerScore = 0;
   var dealerScore = 0;
 
-  $(".play").on("click", Game(score,hand,dealerHand,deck,playerScore,dealerScore))
-})
+  $(".play").on("click", function(score,hand,dealerHand,deck,playerScore,dealerScore){
+    Game(score,hand,dealerHand,deck,playerScore,dealerScore);
+  });
+});
 </script>
