@@ -97,68 +97,11 @@
     return score
   }
 
-  function Game() {
-    if(playerScore > 21) {
-      var ask = confirm("BUST! Would you like to play again?");
-      if(ask == true){
-        Game();
-      }
-    }
-    while (dealerScore <= 21){
-      dealerScore = Score(dealerHand);
-      var message = ("Dealer Has: " + cardsInHand(hand) + " for: " + dealerScore);
-      if(dealerScore < 17){
-        alert("Dealer Hits!")
-        Hit(deck,dealerHand);
-
-        dealerScore = Score(dealerHand);
-        alert("Dealer Has: " + dealerScore)
-      }
-      else { break; }
-    }
-    if(dealerScore > 21){
-      score += 1;
-    var ask = confirm("Dealer Busts! You Win! Play again");
-      if(ask == true){
-        Game();
-      }
-    }
-    else if(dealerScore < playerScore){
-      var ask = confirm("You win! Play Again?");
-      score += 1;
-      if (ask == true){
-        Game();
-      }
-    else if(dealerScore === playerScore){
-      var ask = confirm("Tie! Play again?");
-      if (ask == true){
-        Game();
-      }
-    }
-    }
-    else{
-      var ask = confirm("Dealer wins! Play Again?");
-      score -= 1;
-      if (ask == true){
-        Game(score);
-      }
-    }
-  }
-
-$(document).ready(function() {
-  var score = 0;
-  var hand = [];
-  var dealerHand = [];
-  var deck = Shuffle(new Deck);
-  var playerScore = 0;
-  var dealerScore = 0;
-
-  $(".play").on("click", function(hand,dealerHand,deck)
-  {
+function Game(score,hand,dealerHand,deck,playerScore,dealerScore){
     $(".play").off("click");
-    $(".play").replaceWith("<button class=\"hit\">Hit</button>")
-    $(".buttons").append("<button class=stay>Stay</button>")
-    $("div.inner").replaceWith("<div class=inner> Score: " + score + " </div>")
+    $(".play").replaceWith("<button class=\"hit\">Hit</button>");
+    $(".buttons").append("<button class=stay>Stay</button>");
+    $("div.inner").replaceWith("<div class=inner> Score: " + score + " </div>");
 
     playerScore = 0;
     dealerScore = 0;
@@ -175,17 +118,34 @@ $(document).ready(function() {
 
     $(".players").replaceWith("<div class=players>You have " + cardsInHand(hand) + ", for: " +
       playerScore);
+
     $(".hit").click(function(){
       Hit(deck,hand);
       playerScore = Score(hand);
+
       if (playerScore > 21){
+        $(".hit").off("click")
         $(".players").replaceWith("<div class=players>Bust! Play again?</div>");
+        $(".hit").replaceWith("<button class=play>Again?</button")
+        $(".stay").remove();
+        score -= 1;
+        $(".play").click(Game(score,hand,dealerHand,deck,playerScore,dealerScore))
       }
       else {
       $(".players").replaceWith("<div class=players>You have " + cardsInHand(hand) + ", for: " +
         playerScore);
         }
       });
-    });
-  });
+    }
+
+$(document).ready(function() {
+  var score = 0;
+  var hand = [];
+  var dealerHand = [];
+  var deck = Shuffle(new Deck);
+  var playerScore = 0;
+  var dealerScore = 0;
+
+  $(".play").on("click", Game(score,hand,dealerHand,deck,playerScore,dealerScore))
+})
 </script>
