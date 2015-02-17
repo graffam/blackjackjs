@@ -9,6 +9,16 @@
   </div>
 </div>
 <div class="row">
+  <div class="small-12 columns text-center">
+      <div class="row">
+        <div class="small-12 columns text-center">
+          <div class="status">
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+<div class="row">
   <div class="small-12 columns text-center cardArea">
       <div class="row">
         <div class="small-12 columns text-center">
@@ -98,6 +108,7 @@
   }
 
 function Game(score,hand,dealerHand,deck,playerScore,dealerScore){
+    $(".status").replaceWith("<div class=status>Hit or Stay?</div>");
     $(".play").off("click");
     $(".play").replaceWith("<button class=\"hit\">Hit</button>");
     $(".buttons").append("<button class=stay>Stay</button>");
@@ -125,7 +136,7 @@ function Game(score,hand,dealerHand,deck,playerScore,dealerScore){
 
       if (playerScore > 21){
         $(".hit").off("click")
-        $(".players").replaceWith("<div class=players>Bust! Play again?</div>");
+        $(".status").replaceWith("<div class=status>Bust! Play again?</div>");
         $(".hit").replaceWith("<button class=play>Again?</button")
         $(".stay").remove();
         score -= 1;
@@ -138,6 +149,53 @@ function Game(score,hand,dealerHand,deck,playerScore,dealerScore){
         playerScore);
         }
       });
+
+    $(".stay").on("click", function(){
+      while(Score(dealerHand) < 17){
+        Hit(deck,dealerHand);
+        $(".dealers").replaceWith("<div class=dealers>Dealers Hand: "
+          + cardsInHand(dealerHand) + " Score: " + Score(dealerHand) +"</div>");
+      }
+      if(Score(dealerHand) > 21){
+        $(".hit").off("click")
+        $(".status").replaceWith("<div class=status>Dealer Bust! You Win! Play again?</div>");
+        $(".hit").replaceWith("<button class=play>Again?</button")
+        $(".stay").remove();
+        score += 1;
+        $(".play").on("click", function(){
+          Game(score,hand,dealerHand,deck,playerScore,dealerScore);
+        });
+      }
+      else if(Score(hand) > Score(dealerHand)){
+        $(".hit").off("click")
+        $(".status").replaceWith("<div class=status>You Win! Play again?</div>");
+        $(".hit").replaceWith("<button class=play>Again?</button")
+        $(".stay").remove();
+        score += 1;
+        $(".play").on("click", function(){
+          Game(score,hand,dealerHand,deck,playerScore,dealerScore);
+        });
+      }
+      else if(Score(hand) < Score(dealerHand)){
+        $(".hit").off("click")
+        $(".status").replaceWith("<div class=status>You Lose! Play again?</div>");
+        $(".hit").replaceWith("<button class=play>Again?</button")
+        $(".stay").remove();
+        score -= 1;
+        $(".play").on("click", function(){
+          Game(score,hand,dealerHand,deck,playerScore,dealerScore);
+        });
+      }
+      else {
+        $(".hit").off("click")
+        $(".status").replaceWith("<div class=status>Tie! Play again?</div>");
+        $(".hit").replaceWith("<button class=play>Again?</button")
+        $(".stay").remove();
+        $(".play").on("click", function(){
+          Game(score,hand,dealerHand,deck,playerScore,dealerScore);
+        });
+      }
+    });
     }
 
 $(document).ready(function() {
